@@ -21,22 +21,22 @@
 
 
             // ------- server type openocd --------\\
-            "servertype": "openocd",
-            "device": "NRF51822",
-            "configFiles": [
-                "interface/cmsis-dap.cfg",
-                "target/nrf51.cfg"
-            ],
-            "searchDir": [
-                "/usr/share/openocd/scripts"
-            ],
+            // "servertype": "openocd",
+            // "device": "NRF51822",
+            // "configFiles": [
+            //     "interface/cmsis-dap.cfg",
+            //     "target/nrf51.cfg"
+            // ],
+            // "searchDir": [
+            //     "/usr/share/openocd/scripts"
+            // ],
             // ------------------------------------//
 
 
             // --------- server type qemu ---------\\
-            // "servertype": "qemu",
-            // "cpu": "cortex-m0",
-            // "machine": "microbit",
+            "servertype": "qemu",
+            "cpu": "cortex-m0",
+            "machine": "microbit",
             // ------------------------------------//
 
 

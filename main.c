@@ -106,8 +106,11 @@ void TIMER0_IRQHandler(void)
     if (NRF_TIMER0->EVENTS_COMPARE[0] == 1)
     {
         NRF_TIMER0->EVENTS_COMPARE[0] = 0;
+
+        // increase counter
         timer_ticks++;
 
+        // send string
         itoa(timer_ticks, number_buffer, 10);
         strcpy(dest_buffer, text_prefix);
         strcat(dest_buffer, number_buffer);

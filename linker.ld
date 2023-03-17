@@ -2,7 +2,12 @@
 ENTRY(Reset_Handler)
 
 /*
- * Info : nRF52810-xxAA(build code: C0) 192kB Flash, 24kB RAM
+ * Info : QEMU nRF51822 256kB Flash, 16kB RAM
+ *
+ * https://github.com/qemu/qemu/blob/master/hw/arm/nrf51_soc.c
+ *
+ * #define NRF51822_FLASH_PAGES    256
+ * #define NRF51822_SRAM_PAGES     16
  */
 MEMORY
 {
