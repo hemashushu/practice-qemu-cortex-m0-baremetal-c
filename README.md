@@ -1,10 +1,22 @@
 # QEMU Cortex-M0 bare-metal C
 
-QEMU Micro:Bit v1
+QEMU microbit
 
+- Micro:Bit v1
 - Nordic nRF51822, 16 MHz ARM Cortex-M0 core
 - 256 KB Flash
 - 16 KB RAM
+
+Supported devices:
+
+- ARM Cortex-M0 (ARMv6-M)
+- Serial ports (UART)
+- Clock controller
+- Timers
+- Random Number Generator (RNG)
+- GPIO controller
+- NVMC
+- SWI
 
 Detail:
 
@@ -37,3 +49,13 @@ start QEMU GDB server first:
 open another terminal and run:
 
 `$ ./start-gdb-client.sh`
+
+then try to run some GDB commands, e.g.
+
+```gdb
+gdb> b _start
+gdb> c
+gdb> i r
+gdb> x/8i $pc
+gdb> si
+```
