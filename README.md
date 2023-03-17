@@ -1,5 +1,15 @@
 # QEMU Cortex-M0 bare-metal C
 
+Micro:Bit v1
+
+- Nordic nRF51822, 16 MHz ARM Cortex-M0 core
+- 256 KB Flash
+- 16 KB RAM
+
+Detail:
+
+https://qemu.readthedocs.io/en/latest/system/arm/nrf.html
+
 ## build
 
 `$ ./build.sh`
