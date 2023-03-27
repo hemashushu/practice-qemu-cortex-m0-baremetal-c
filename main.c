@@ -27,27 +27,46 @@ void send_string(const char *text)
 {
     int len = strlen(text);
 
-    // enable UART and occured the TX/RX pins
-    NRF_UART0->ENABLE = UART_ENABLE_ENABLE_Enabled << UART_ENABLE_ENABLE_Pos;
-
     // start TX
     NRF_UART0->TASKS_STARTTX = 1;
 
     for (int idx = 0; idx < len; idx++)
     {
         NRF_UART0->TXD = *(text + idx);
+
         while (NRF_UART0->EVENTS_TXDRDY == 0)
         {
             // waiting for the transfer is complete
             (void)0;
         }
+
+        // clear the TXDRDY bit
+        NRF_UART0->EVENTS_TXDRDY = 0;
     }
 
     // stop TX
     NRF_UART0->TASKS_STOPTX = 1;
+}
 
+void config_uart(void)
+{
     // disable UART and release TX/RX pins
     NRF_UART0->ENABLE = UART_ENABLE_ENABLE_Disabled << UART_ENABLE_ENABLE_Pos;
+
+    // Configure the UARTE with no flow control, no parity bit
+    NRF_UART0->CONFIG = (UART_CONFIG_HWFC_Disabled << UART_CONFIG_HWFC_Pos) |
+                        (UART_CONFIG_PARITY_Excluded << UART_CONFIG_PARITY_Pos);
+
+    // 115200 baud rate
+    NRF_UART0->BAUDRATE = UART_BAUDRATE_BAUDRATE_Baud115200 << UART_BAUDRATE_BAUDRATE_Pos;
+
+    // checkout the Micro:Bit v1 schematics
+    // https://github.com/bbcmicrobit/hardware/blob/master/V1.3B/SCH_BBC-Microbit_V1.3B.pdf
+    NRF_UART0->PSELTXD = 24; // P0.24
+    NRF_UART0->PSELRXD = 25; // P0.25
+
+    // enable UART and occured the TX/RX pins
+    NRF_UART0->ENABLE = UART_ENABLE_ENABLE_Enabled << UART_ENABLE_ENABLE_Pos;
 }
 
 // checkout _nRF51 Series Reference Manual_
@@ -58,14 +77,6 @@ void send_string(const char *text)
 void test_uart(void)
 {
     const char *text = "Hello World!\n";
-
-    // config
-    // NRF_UART0->CONFIG = (UART_CONFIG_HWFC_Disabled << UART_CONFIG_HWFC_Pos) |
-    //                     (UART_CONFIG_PARITY_Included << UART_CONFIG_PARITY_Pos);
-    // NRF_UART0->BAUDRATE = UART_BAUDRATE_BAUDRATE_Baud115200 << UART_BAUDRATE_BAUDRATE_Pos;
-    // NRF_UART0->PSELTXD = YOUR_TXD_PIN_NUMBER;
-    // NRF_UART0->PSELRXD = YOUR_RXD_PIN_NUMBER;
-
     send_string(text);
 }
 
@@ -99,9 +110,9 @@ void test_timer(void)
 void TIMER0_IRQHandler(void)
 {
     char text_prefix[] = "Timer 0 trigger: ";
-    char text_new_line[] = "\n";
-    char number_buffer[22];
-    char dest_buffer[32];
+    char text_new_line[] = "\r\n";
+    char number_buffer[24];
+    char dest_buffer[48];
 
     if (NRF_TIMER0->EVENTS_COMPARE[0] == 1)
     {
@@ -121,7 +132,9 @@ void TIMER0_IRQHandler(void)
 
 int main(void)
 {
-    test_uart();
+    timer_ticks = 0;
+    config_uart();
+    // test_uart();
     test_timer();
 }
 

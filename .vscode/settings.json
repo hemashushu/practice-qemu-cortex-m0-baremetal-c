@@ -4,15 +4,5 @@
     // "rust-analyzer.cargo.target": "thumbv7m-none-eabi",
     "cortex-debug.openocdPath": "/usr/bin/openocd",
     "files.associations": {
-        "*.excalidraw": "json",
-        "*.excalidrawlib": "json",
-        "*.S": "asm-intel-x86-generic",
-        "hash_map": "c",
-        "hash_set": "c",
-        "bitset": "c",
-        "algorithm": "c",
-        "nrf51.h": "c",
-        "nrf51_bitfields.h": "c",
-        "sstream": "c"
     },
 }
