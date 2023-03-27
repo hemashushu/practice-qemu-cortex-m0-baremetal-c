@@ -30,7 +30,7 @@ arm-none-eabi-gcc \
     -nostartfiles \
     -Wl,-T,linker.ld \
     -o main.elf \
-    main.c
+    startup.c main.c
 
 # link options:
 # -nostartfiles

@@ -48,22 +48,27 @@ Open another terminal window and run the script `start-gdb-client.sh` or `start-
 
 `$ ./start-gdb-client.sh`
 
-The processor should now halt on the function `Reset_Handler` at `main.c`, enter the following GDB commands to confirm:
+The processor should now halt on the function `Reset_Handler` at `startup.c`, enter the following GDB commands to confirm:
 
 ```gdb
 (gdb) where
-#0  Reset_Handler () at main.c:157
+#0  Reset_Handler () at startup.c:26
 (gdb) list
 ...
-157         main();
+26          asm("ldr r0, =_estack\n"
+27              "mov sp, r0");
 ...
 ```
 
 Then try to run some GDB commands, e.g.
 
 ```gdb
-(gdb) s
-main () at main.c:135
+(gdb) b main
+Breakpoint 1 at 0x320: file main.c, line 135.
+(gdb) c
+Continuing.
+
+Breakpoint 1, main () at main.c:135
 135         timer_ticks = 0;
 (gdb) n
 136         config_uart();
@@ -125,15 +130,16 @@ $ picocom -b 115200 /dev/ttyACM0
 
 Where the `ttyACM0` is the serial port number of the Micro:Bit. You can confirm the port number with the command `$ ls /dev/tty` + `<TAB>`.
 
-You will see the following output:
+You will see the output looks like this:
 
 ```text
 ...
-Timer 0 trigger: 482
-Timer 0 trigger: 483
-Timer 0 trigger: 484
-Timer 0 trigger: 485
-Timer 0 trigger: 486
+Terminal ready
+Timer 0 trigger: 19
+Timer 0 trigger: 20
+Timer 0 trigger: 21
+Timer 0 trigger: 22
+Timer 0 trigger: 23
 ...
 ```
 
@@ -160,16 +166,19 @@ Then try to run some GDB commands, e.g.
 
 ```gdb
 (gdb) where
-#0  Reset_Handler () at main.c:157
-(gdb) s
+#0  Reset_Handler () at startup.c:26
+(gdb) b main
+Breakpoint 1 at 0x320: file main.c, line 135.
 Note: automatically using hardware breakpoints for read-only addresses.
-main () at main.c:135
+(gdb) c
+Continuing.
+
+Breakpoint 1, main () at main.c:135
 135         timer_ticks = 0;
 (gdb) n
 136         config_uart();
-(gdb) s
-config_uart () at main.c:54
-54          NRF_UART0->ENABLE = UART_ENABLE_ENABLE_Disabled << UART_ENABLE_ENABLE_Pos;
+(gdb) n
+139         test_timer();
 ```
 
 Enter command `q` to exit GDB.

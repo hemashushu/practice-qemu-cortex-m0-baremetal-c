@@ -134,74 +134,7 @@ int main(void)
 {
     timer_ticks = 0;
     config_uart();
-    // test_uart();
-    test_timer();
-}
 
-extern void NMI_Handler();
-extern void HardFault_Handler();
-extern void SVC_Handler();
-extern void PendSV_Handler();
-extern void SysTick_Handler();
-extern void UART0_IRQHandler();
-// extern void TIMER0_IRQHandler();
-
-// the true startup code
-// keyword `naked` indicates this function no function prologue.
-__attribute__((naked, noreturn)) void Reset_Handler()
-{
-    // note:
-    // memset .bss to zero, and copy .data section to RAM region here
-
-    // call user's main function
-    main();
-
-    // infinite loop in the case if main() returns
-    for (;;)
-    {
-        (void)0;
-    }
-}
-
-// PM0214 2.3.4 Vector table
-//
-// vector table entry list and item name from
-// `nRF5_SDK_17.1.0/modules/nrfx/mdk/gcc_startup_nrf52810.S`
-__attribute__((section(".vector_table.exceptions"))) void (*Exceptions[48])() = {
-    // &_estack,       // idx: 0 the initial stack pointer
-    Reset_Handler,     // idx: 1 the address of the entry function
-    NMI_Handler,       // idx: 2
-    HardFault_Handler, // idx: 3
-    0,                 // idx: 4
-    0,                 // idx: 5
-    0,                 // idx: 6
-    0,                 // idx: 7
-    0,                 // idx: 8
-    0,                 // idx: 9
-    0,                 // idx: 10
-    SVC_Handler,       // idx: 11
-    0,                 // idx: 12
-    0,                 // idx: 13
-    PendSV_Handler,    // idx: 14
-    SysTick_Handler,   // idx: 15
-
-    0,                 // idx: 16
-    0,                 // idx: 17
-    UART0_IRQHandler,  // idx: 18
-    0,                 // idx: 19
-    0,                 // idx: 20
-    0,                 // idx: 21
-    0,                 // idx: 22
-    0,                 // idx: 23
-    TIMER0_IRQHandler, // idx: 24
-    0,                 // idx: 25
-    0,                 // idx: 26
-};
-
-__attribute__((naked, noreturn)) void Default_Handler()
-{
-    for (;;)
-    {
-        (void)0;
-    }
+    // test_uart();     // test A
+    test_timer();       // test B
 }
