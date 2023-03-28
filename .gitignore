@@ -5,3 +5,6 @@
 
 .vscode/.cortex-debug.peripherals.state.json
 .vscode/.cortex-debug.registers.state.json
+
+hardware/nRF51822_PS_v3.4.pdf
+hardware/nRF51_RM_v3.0.1.pdf

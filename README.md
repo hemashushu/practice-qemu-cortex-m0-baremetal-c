@@ -12,6 +12,8 @@ Details:
 - https://github.com/qemu/qemu/blob/master/hw/arm/microbit.c
 - https://github.com/qemu/qemu/blob/master/hw/arm/nrf51_soc.c
 
+Some key definitions:
+
 ```c
 #define NRF51822_FLASH_PAGES    256         // 256KiB
 #define NRF51822_SRAM_PAGES     16          // 16KiB
@@ -26,7 +28,7 @@ Details:
 
 `$ ./run.sh`
 
-You will see the following output:
+You will see the following output if there is no error:
 
 ```text
 Timer 0 trigger: 1
@@ -44,9 +46,9 @@ Start QEMU GDB server first:
 
 `$ ./start-gdb-server-qemu.sh`
 
-Open another terminal window and run the script `start-gdb-client.sh` or `start-gdb-client-with-svd-tools.sh` to start GDB client:
+Open another terminal window and run the script `start-gdb-client-qemu.sh` or `start-gdb-client-qemu-with-svd-tools.sh` to start GDB client:
 
-`$ ./start-gdb-client.sh`
+`$ ./start-gdb-client-qemu.sh`
 
 The processor should now halt on the function `Reset_Handler` at `startup.c`, enter the following GDB commands to confirm:
 
@@ -79,7 +81,7 @@ config_uart () at main.c:54
 
 ## Flash on the real nRF51822 or _Micro:Bit v1_
 
-Make sure that the nRF51822 is connected to DAPLINK debugger (hardware) via the SWD wires first. If you have _Micro:Bit v1_ board, simply use a USB cable to connect it to your computer.
+Make sure that the nRF51822 is connected to DAPLINK debugger (hardware) via the SWD wires first. If you have _Micro:Bit v1_ board, just simply use a USB cable to connect it to your computer.
 
 ```bash
 # openocd default scripts location "/usr/share/openocd/scripts"
@@ -93,7 +95,7 @@ openocd -f interface/cmsis-dap.cfg  -f target/nrf51.cfg -c "program main.elf ver
 
 Note that the program binary is placed at 0x00000000, not at 0x08000000 as is usual for STM32 serial chips.
 
-When the flash is successful, some of the output is shown as below:
+When the flashing is successful, some of the output is shown as below:
 
 ```text
 Info : auto-selecting first available session transport "swd". To override use 'transport select <transport>'.

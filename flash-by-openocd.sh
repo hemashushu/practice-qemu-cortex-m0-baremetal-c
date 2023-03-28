@@ -1,6 +1,8 @@
 #!/bin/bash
-./build.sh
+
 # openocd default scripts location "/usr/share/openocd/scripts"
+
+# flash ELF by DAPLINK debugger
 openocd -f interface/cmsis-dap.cfg  -f target/nrf51.cfg -c "program main.elf verify reset exit"
 
 # flash BIN
